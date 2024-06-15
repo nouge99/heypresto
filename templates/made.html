@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+
+{% block main %}
+
+<div class="main-area">
+    <div class="float-container">
+        <div class="tilt-box made-box yellow" style="margin: 0 auto 0 auto;">
+            <div class="tilt-border1 made-box">
+                <div class="big-box made-box">
+
+                    <h2 style="margin-bottom: 20px">Here's your box code</h2>
+                    <p class="grandstander" style="padding-bottom: 0px">&bull; Make a note of it &ndash; you'll need it to find it again!
+                        <br/>
+                        &bull; Send your friends this code</p>
+                    <h1 id="code-to-copy" class="grandstander" style="float: left; font-size: 4em; margin: 20px 20px 30px 150px">{{ box[0].code }}</h1>
+                    <button id="copyButton" class="button-skew lil">Copy Code</button>
+                    <br/><br/>
+                    <form action="/gobox" method="GET">
+                        <button class="button-skew centre" name="gobox" style="width: 250px; margin-top: 0px">Go to box</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

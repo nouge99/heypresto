@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+    <head>
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, width=device-width">
+
+        <!-- Include bootstrap features -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+        <!-- Include recaptcha v2 -->
+        <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+        <!-- Load Grandstander and Hanken Grotesk fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Grandstander:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+        <link href="/static/styles.css" rel="stylesheet">
+        <script src="/static/script.js" defer></script>
+
+        <title>HeyPresto!</title>
+
+    </head>
+
+    <body>
+
+        <nav class="bg-light border navbar navbar-expand-md" style="padding: 0; margin: 0; background-color: #f5deb3">
+            <div class="container-fluid mint-green" style="height: 65px">
+                <div style="width: 300px; margin: 0 200px 50px 0">
+                    <div class="badge push-right-for-small-display" style="top: 3px; left: 8px; color: #39ff14;">HeyPresto!</div>
+                    <a class="navbar-brand badge move-logo-for-small-display" href="/">HeyPresto!</a>
+                </div>
+                <div id="navbar" class="push-right-for-small-display">
+                    <ul class="navbar-nav me-auto mt-2">
+                        <li style="margin-top: 20px"></li>
+                        <li class="nav-item button-skew menu-button" style="background-color: #fcf55f !important; margin: 0 0 0 40px !important"><a class="nav-link" style="color: #011efe; z-index: 11" href="{{ url_for('index') }}#help-section">Instructions</a></li>
+                        <li style="margin-top: 15px"></li>
+                        <li class="nav-item button-skew menu-button" style="margin-left: 35px !important; transform: rotate(2deg); background-color: #3dd1e7 !important"><a class="nav-link" style="color: #ab20fd; z-index: 11" href="/">Use a code</a></li>
+                        <li style="margin-top: 15px"></li>
+                        <li class="nav-item button-skew menu-button" style="margin: 0 0 0 35px !important; transform: rotate(-1deg); background-color: #ffc0cb !important"><a class="nav-link" style="color: #fe0000; z-index: 11" href="{{ url_for('index') }}#make-section">Make a box</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="navbar-margin-for-small-display">
+        </div>
+
+        {% if get_flashed_messages() %}
+            <header>
+                <div class="alert alert-primary mb-0 text-center grotesk" role="alert">
+                    {{ get_flashed_messages() | join(" ") }}
+                </div>
+            </header>
+        {% endif %}
+
+        <main class="container py-5 text-center">
+
+            <div class="float-container">
+                {% block main %}
+                {% endblock %}
+            </div>
+
+        </main>
+
+        <footer class="mb-5">
+        </footer>
+
+    </body>

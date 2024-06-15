@@ -1,0 +1,104 @@
+{% extends "layout.html" %}
+
+{% block main %}
+
+<div class="main-area">
+    <div id="hide-until-loaded" class="float-container hide-until-loaded">
+        <div id="box-background" class="tilt-box expander" style="margin: 0 auto 0 auto;">
+            <div id="box-border" class="tilt-border1 expander">
+                <div id="box-info" class="big-box expander">
+                    <h2>{{ box[0].name }}</h2>
+                    <div class="centre" style="width: 300px; margin: 0 auto 0 auto;">
+                        <div class="small bold float" style="margin-right: 20px"><span class="grandstander">Box code: </span><span class="regular">{{ box[0].code }}</span></div>
+                        <div id="box-type" class="small bold float" data-type="{{ box[0].type }}"><span class="grandstander">Box type: </span><span class="regular">{{ box[0].type }}</span></div>
+                    </div>
+                    <br/>
+                        {% if box[0].instructions|length != 0 %}
+                            <div class="smallish bold" style="line-height: 1.3; margin: 10px 10px 0 20px"><span class="grandstander" style="line-height: normal">Instructions: </span><span class="regular small">{{ box[0].instructions }}</span></div>
+                        {% endif %}
+                        {% if box[0].status == 'ready' and open != 'yes' %}
+                            <button id="open-box" name="open" value="{{ box[0].number_of_users }}" class="button-skew open">Open the box!</button>
+                        {% else %}
+                            <form id="hide-after-push" onsubmit="return false;" style="margin-top: 0px">
+                                    <button name="submit" value="open" class="button-skew submit" onclick="expandBoxes()">Submit to the box</button>
+                            </form>
+                        {% endif %}
+                    <form action="/submit" method="POST" id="hide-until-needed" style="display: none">
+                        <div class="skew" style="width: 80%; margin: 0 auto 30px auto">
+                            <label class="grandstander prompt" style="float: left; margin: 0 15px 0 20px">Your name:</label>
+                            <input id="name" name="username" type="text" class="grandstander" style="float: left; font-size: 1em">
+                        </div>
+                        <br/>
+                        <div id="name-report" class="grandstander tiny skew" style="vertical-align: middle; width: 70%; margin: 0 auto 10px auto; height: 20px; padding-top: 0px;">&#20;</div>
+                        {% if box[0].type == 'text' %}
+                            <label class="grandstander skew prompt" style="float: left; margin-top: 10px; padding-left: 75px; line-height: 50%">Enter text:</label><br/>
+                            <textarea id="text" name="submission" type="text" class="grandstander skew" rows="2" cols="36" style="margin: 0 0 0 0"></textarea>
+                            <div id="text-report" class="grandstander tiny skew" style="vertical-align: middle; width: 70%; margin: 0 auto 0 auto; height: 20px;">&#20;</div>
+                            <button type="submit" class="button-skew centre" style="margin-top: 18px">Submit</button>
+                        {% elif box[0].type == 'number' %}
+                            <div class="skew centre" style="width: 80%">
+                                <label class="grandstander prompt" style="margin-right: 10px;">Enter number:</label>
+                                <input id="number" name="submission" type="number" class="grandstander">
+                            </div>
+                            <div id="num-report" class="grandstander tiny skew centre" style="vertical-align: middle; width: 70%; height: 20px; padding-top: 0px; margin-bottom: 15px">&#20;</div>
+                            <button type="submit" class="button-skew centre" style="margin-top: 5px">Submit</button>
+                        {% elif box[0].type == 'image' %}
+                            <input id="file-upload" name="image" type="file"  style="display: none">
+                            <label for="file-upload" class="button-skew" style="width: 60%; margin: 30px auto 0 auto">Choose an image</label>
+                            <div id="upload-report" class="grandstander tiny" style="transform: rotate(-2deg); vertical-align: middle; width: 70%; margin: 0 auto 0 auto; height: 35px; padding-top: 4px">&#20;</div>
+                            <button id="disabled-until-ready" type="submit" value="{{ box[0].code }}" class="button-skew non-active" disabled style="width: 50%; margin: 20px auto 0 auto">Submit</button>
+                        {% endif %}
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Display each entry's submission status and how long ago it was submitted -->
+    <div class="wait-for-load">
+        <div class="float-container wrap">
+            {% for submission in range(box[0].number_of_users) %}
+                <div class="submission-box {{ box_contents[submission].bgcolor }} push-submission-for-small-display" style="transform: rotate({{ box_contents[submission].tilt1 }}deg)">
+                    <div class="submission-border" style="transform: rotate({{ box_contents[submission].tilt2 }}deg);">
+                        <h2 style="margin: 0px auto; padding-top: 25px">{{ box_contents[submission].username }}</h2>
+                        {% if box_contents[submission].subtime == 'no' %}
+                            <div class="submission-content grotesk" style="padding-top: 15px">
+                                <img src="{{ url_for('static', filename='zzz.png') }}" alt="waiting for submission" style="height:100px; width:100px; margin: 10px 0 35px 0;" />
+                            </div>
+                            <div class="submission-content">
+                                Waiting for submission
+                            </div>
+                        <!-- If box is image type, can leave image routes to be exposed by javascript when box is ready -->
+                        {% elif box_contents[submission].subtime != 'no' and box[0].type == 'image' %}
+                            <div class="submission-content centre" style="padding-top: 15px; width: 90%">
+                                <div class="grandstander hide-when-opened" style="font-size: 140px; margin-top: 30px; line-height: normal">?</div>
+                                <img class="image-reveal-when-opened" hidden src="{{ url_for('static', filename='uploads/' + box_contents[submission].contents) }}" />
+                            </div>
+                            <div class="submission-content" style="padding-top: 15px">
+                                Submitted {{ box_contents[submission].subtime }}
+                            </div>
+                        <!-- If box is text or number type, need to reload the page when opened, so secret entries aren't exposed in html -->
+                        {% elif box_contents[submission].subtime != 'no' and box[0].type != 'image' and box[0].status != 'ready' %}
+                            <div class="grandstander" style="font-size: 140px; margin-top: 30px; line-height: normal">?</div>
+                            <div class="submission-content" style="padding-top: 15px">
+                                Submitted {{ box_contents[submission].subtime }}
+                            </div>
+                        <!-- If box is text or number type, need to reload the page when opened, so secret entries aren't exposed in html -->
+                        {% elif box_contents[submission].subtime != 'no' and box[0].type != 'image' and box[0].status == 'ready' %}
+                            <div class="submission-content centre" style="padding-top: 15px; width: 90%">
+                                <div class="grandstander hide-when-opened" style="font-size: 140px; margin-top: 30px; line-height: normal">?</div>
+                                <div class="grandstander text-reveal-when-opened" hidden style="font-size: {{ box_contents[submission].display_size }}px; line-height: normal">{{ box_contents[submission].contents }}</div>
+                            </div>
+                            <div class="submission-content" style="padding-top: 15px">
+                                Submitted {{ box_contents[submission].subtime }}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,59 @@
+{% extends "layout.html" %}
+
+{% block main %}
+
+<div class="main-area">
+    <div class="float-container wrap">
+
+        <div class="tilt-box" style="float: left; height: 300px">
+            <div class="tilt-border1">
+                <div class="big-box">
+                    <h2 style="margin-top: 10px">Enter a box code</h2>
+                    <form action="/verify-recaptcha" method="POST">
+                        <div id="recaptcha1" class="g-recaptcha recaptcha-left" data-sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"></div><br/>
+                        <input class="text-input grotesk" type="text" name="code" size=5 autocomplete="off" placeholder="code">
+                        <button name="destination" value="gobox" type="submit" class="button-skew submit">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <a id="make-section"></a>
+        <div class="tilt-box" style="background-color: #ffde1a; float: left; height: 300px">
+            <div class="tilt-border2">
+                <div class="big-box">
+                    <h2 style="transform: rotate(0.3deg);">Make a new box</h2>
+                    <form action="/verify-recaptcha" method="POST">
+                        <div id="recaptcha2" class="g-recaptcha recaptcha-right" data-sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"></div><br/>
+                        <button name="destination" value="make" class="button-skew make" type="submit">Make box</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <a id="help-section"></a>
+        <div class="tilt-box pale-pink" style="float: left; height: 550px; margin-top: 50px">
+            <div class="tilt-border1" style="height: 550px">
+                <div class="big-box" style="padding: 30px 30px 0 30px">
+                    <h2 style="margin-bottom: 10px">What is this?</h2>
+                    <p>
+                        HeyPresto gives you and your friends a way to all secretly choose and then simultaneously reveal something – whether it's a message, a number or an image.
+                        <br/><br/>
+                        It's perfect for online games where you need to make a secret bid, or to choose and reveal a card.
+                    </p>
+                    <h2 style="margin: 25px 0 20px 0">How it works</h2>
+                    <p>1. Make a sealed 'box' for you and your friends to submit to.</p>
+                    <p>2. Note the box's unique code and share it with your friends.</p>
+                    <p>3. People's submissions to the box are kept secret until everyone's submitted.</p>
+                    <p>4. Once all the submissions are in, open the box and see what's what!</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+{% endblock %}
+

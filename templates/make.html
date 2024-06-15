@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+
+{% block main %}
+
+<div class="main-area">
+    <div class="float-container">
+        <div class="tilt-box make-box mint-green" style="margin: 0 auto 0 auto;">
+            <div class="tilt-border1 make-box">
+                <div class="big-box make-box">
+
+                    <h2 style="margin-bottom: 20px">Make a new box</h2>
+                        <form id="make-box" action="/make" method="post">
+                            <label class="grandstander prompt" style="float: left; margin: 0 15px 0 60px">Box name:</label>
+                            <input id="name" name="name" class="grandstander" autocomplete="off" autofocus style="float: left; padding: 3px 0 0 5px">
+                            <br/><br/>
+                            <select id="type" name="type" class="grandstander" style="height: 40px; float: left; margin-left: 120px; padding: 2px 5px 0 5px">
+                                <option value="" selected="selected">&nbsp-- What's going in the box? -- </option>
+                                <option value="number">A number</option>
+                                <option value="text">A message</option>
+                                <option value="image">An image</option>
+                            </select>
+                            <br/><br/>
+                            <label class="grandstander prompt" style="float: left; margin: 10px 15px 0 60px">How many people to include?</label>
+                            <input id="users" name="users" type="number" class="grandstander" autocomplete="off" autofocus style="float: left; width: 50px; margin-top: 10px; padding: 3px 0 0 5px">
+                            <br/><br/>
+                            <label class="grandstander prompt" style="float: left; margin: 10px 15px 0 60px">Instructions:</label>
+                            <textarea id="instructions" name="instructions" class="grandstander" rows="4" cols="40" style="float: left; margin: 0 15px 0 60px; padding: 5px" placeholder="(Optional)"></textarea>
+                            <br/><br/>
+                            <div id="make-box-report" class="grandstander skew centre" style="height: 20px; width: 80%"></div>
+                            <button name="submit" class="button-skew centre" style="width: 50%; margin-top: 135px" value="submit">Make a box</button>
+                        </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+{% endblock %}
