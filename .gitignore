@@ -1,0 +1,9 @@
+.DS_Store
+.AppleDouble
+.LSOverride
+
+flask_session/
+venv/
+
+*.pem
+.env
