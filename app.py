@@ -1,10 +1,9 @@
 import os
-import sqlite3
-
 from cs50 import SQL
+from datetime import datetime
+from dotenv import load_dotenv
 from flask import Flask, flash, redirect, render_template, request, session
 from flask_session import Session
-from datetime import datetime
 import random, string, requests
 
 UPLOAD_FOLDER = 'static/uploads'
@@ -12,6 +11,10 @@ ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+# Load recaptcha secret key
+load_dotenv()
+secret_key = os.getenv("RECAPTCHA_SECRET_KEY")
 
 # Configure session to use filesystem (instead of signed cookies)
 app.config["SESSION_PERMANENT"] = False
@@ -241,7 +244,7 @@ def time_since_submission(subdate, today_date):
 def verify_recaptcha():
     destination = request.form.get('destination')
     session["code"] = request.form.get('code')
-    secret_key = "6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe"
+    # secret_key = "6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe"
     response = request.form.get('g-recaptcha-response')
     if response == '':
         flash("Tick the box to confirm you're not a robot")

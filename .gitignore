@@ -2,6 +2,7 @@
 .AppleDouble
 .LSOverride
 
+__pycache__/
 flask_session/
 venv/
 
