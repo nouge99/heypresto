@@ -10,4 +10,3 @@ venv/
 .env
 
 *.amazonaws.com
-favicon.png
