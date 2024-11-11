@@ -5,6 +5,7 @@
 __pycache__/
 flask_session/
 venv/
+static/uploads/
 
 *.pem
 .env
