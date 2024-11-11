@@ -5,7 +5,9 @@
 __pycache__/
 flask_session/
 venv/
-static/uploads/
+static/uploads/*.png
+static/uploads/*.jpg
+static/uploads/*.gif
 
 *.pem
 .env
