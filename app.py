@@ -19,6 +19,8 @@ secret_key = os.getenv("RECAPTCHA_SECRET_KEY")
 # Configure session to use filesystem (instead of signed cookies)
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
+app.config["SESSION_COOKIE_SECURE"] = True
+app.config['PREFERRED_URL_SCHEME'] = 'https'
 Session(app)
 
 # Configure CS50 Library to use SQLite database
@@ -244,7 +246,6 @@ def time_since_submission(subdate, today_date):
 def verify_recaptcha():
     destination = request.form.get('destination')
     session["code"] = request.form.get('code')
-    # secret_key = "6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe"
     response = request.form.get('g-recaptcha-response')
     if response == '':
         flash("Tick the box to confirm you're not a robot")
